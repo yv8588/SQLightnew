@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SQLight">
-        <activity android:name=".filterdShowdb"></activity>
+        <activity android:name=".credits"></activity>
+        <activity android:name=".filterdShowdb" />
         <activity android:name=".showdb" />
         <activity android:name=".MainActivity">
             <intent-filter>

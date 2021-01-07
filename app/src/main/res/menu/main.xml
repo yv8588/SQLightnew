@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:title= "credits screen"
+    android:id="@+id/credit"
+    android:orderInCategory="1"/>
+    <item
+        android:title= "show data base"
+        android:id="@+id/sdb"
+        android:orderInCategory="2"/>
+    <item
+        android:title= "filterd data base"
+        android:id="@+id/fsdb"
+        android:orderInCategory="3"/>
+    <item
+        android:title= "main activity"
+        android:id="@+id/main"
+        android:orderInCategory="4"/>
+</menu>

@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class showdb extends AppCompatActivity {
+public class credits extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_showdb);
+        setContentView(R.layout.activity_credits);
     }
     /**
      * creates the xml general option menu
@@ -37,8 +37,8 @@ public class showdb extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent si;
         String s=item.getTitle().toString();
-        if(s.equals("credits screen")) {
-            si = new Intent(this,credits.class);
+        if(s.equals("show data base")) {
+            si = new Intent(this,showdb.class);
             startActivity(si);
         }
         else if (s.equals("main activity")){
