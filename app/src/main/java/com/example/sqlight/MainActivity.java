@@ -23,6 +23,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
     SQLiteDatabase db;//the SQLite data base.
     HelperDB hlp;// the class who builds the data base.
@@ -53,37 +55,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         String Update;
-         String[] Data = {""};
+        String[] Data = {""};
         adb=new AlertDialog.Builder(this);
         db = hlp.getWritableDatabase();
-        final EditText et2=new EditText(this);
         final EditText et1=new EditText(this);
-
-
-        if (parent.equals(adp1)){
+        adb.setNegativeButton("done", new DialogInterface.OnClickListener() {
+            /**
+             * when clicked gets out and saves name.
+             * <p>
+             * @param dialog
+             * @param which
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String forUse = et1.getText().toString();
+                if(forUse.equals(null))
+                    Toast.makeText(MainActivity.this,"enter a name",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                Data[0] = forUse;
+            }
+        });// dialog for every window.
+        if (parent.getId()==(R.id.listStudent)){
             Update= StudentDATA[position];
             switch (Update) {
                 case "NAME":
                     et1.setHint("enter a name");
-                    adb.setNegativeButton("done", new DialogInterface.OnClickListener() {
-                        /**
-                         * when clicked gets out and saves name.
-                         * <p>
-                         * @param dialog
-                         * @param which
-                         */
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String forUse = et1.getText().toString();
-                            if(forUse.equals(null))
-                                Toast.makeText(MainActivity.this,"enter a name",Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                            Data[0] = forUse;
-                        }
-                    });
                     adb.setView(et1);
                     AlertDialog ad=adb.create();
                     ad.show();
+                    Toast.makeText(MainActivity.this,Data[0],Toast.LENGTH_SHORT).show();
                     cv.put(Student.NAME, Data[0]);
                     break;
                 case "PHONE NUMBER":
@@ -96,31 +96,40 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 case "FATHER":
                     et1.setHint("the father name");
                     adb.setView(et1);
+                    AlertDialog ad2=adb.create();
+                    ad2.show();
                     cv.put(Student.FATHER, Data[0]);
                     break;
                 case "MOTHER":
                     et1.setHint("the mother name");
                     adb.setView(et1);
+                    AlertDialog ad3=adb.create();
+                    ad3.show();
                     cv.put(Student.MOTHER, Data[0]);
                     break;
                 case "HOME NUMBER":
                     et1.setHint("the home phone number");
                     adb.setView(et1);
+                    AlertDialog ad4=adb.create();
+                    ad4.show();
                     cv.put(Student.HOME_NUMBER, Data[0]);
                     break;
                 case "FATHER NUMBER":
                     et1.setHint("the father phone number");
                     adb.setView(et1);
+                    AlertDialog ad5=adb.create();
+                    ad5.show();
                     cv.put(Student.FATHER_NUMBER, Data[0]);
                     break;
                 default:
-                    et1.setHint("the mother phone number");
+
                     adb.setView(et1);
                     cv.put(Student.MOTHER_NUMBER, Data[0]);
             }
             db.insert(Student.TABLE_STUDENT,null,cv);
-
+            db.close();
         }
+
         else{
             cv.clear();
             Update=GradesDATA[position];
@@ -128,21 +137,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 case "CLASS NAME":
                     et1.setHint("the class name");
                     adb.setView(et1);
+                    AlertDialog ad10=adb.create();
+                    ad10.show();
                     cv.put(Grades.CLASS_NAME, Data[0]);
                     break;
                 case "QUARTER NUMBER":
                     et1.setHint("the quarter number");
                     adb.setView(et1);
-                   cv.put (Grades.QUARTER_NUMBER, Data[0]);
+                    AlertDialog ad11=adb.create();
+                    ad11.show();
+                    cv.put (Grades.QUARTER_NUMBER, Data[0]);
                     break;
                 case "GRADE":
                     et1.setHint("the grade number");
                     adb.setView(et1);
+                    AlertDialog ad12=adb.create();
+                    ad12.show();
                     cv.put(Grades.GRADE, Data[0]);
             }
             db.insert(Grades.TABLE_GRADES,null,cv);
+            db.close();
         }
-        db.close();
         return false;
     }
     /**
