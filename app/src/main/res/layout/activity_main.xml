@@ -17,12 +17,11 @@
             android:layout_height="0dp"
             android:layout_weight="3" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <ListView
             android:id="@+id/listStudent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4" />
-
+            android:layout_weight="12"></ListView>
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -40,11 +39,12 @@
             android:layout_height="0dp"
             android:layout_weight="3" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <ListView
             android:id="@+id/listGrade"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4" />
+            android:layout_weight="4" >
+        </ListView>
 
         <Space
             android:layout_width="match_parent"

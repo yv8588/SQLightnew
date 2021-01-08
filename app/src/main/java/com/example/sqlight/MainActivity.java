@@ -35,42 +35,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         hlp = new HelperDB(this);
         db = hlp.getWritableDatabase();
         db.close();
-        setContentView(R.layout.activity_main);
-        listStudent = (ListView) findViewById(R.id.listStudent);
+        listStudent =(ListView) findViewById(R.id.listStudent);
         listGrades = (ListView) findViewById(R.id.listGrade);
-        listStudent.setChoiceMode(listStudent.CHOICE_MODE_SINGLE);
-        listGrades.setChoiceMode(listGrades.CHOICE_MODE_SINGLE);
+        listStudent.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listGrades.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         adp1=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,StudentDATA);
         adp2=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,GradesDATA);
+        listGrades.setAdapter(adp2);
+        listStudent.setAdapter(adp1);
         listStudent.setOnItemLongClickListener(this);
         listGrades.setOnItemLongClickListener(this);
     }
-    /**
-     * creating context menu
-     * <p>
-     * @param menu the context menu.
-     * @param v the xml view.
-     * @param menuInfo info.
-     */
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-    }
-    /**
-     * reacting to users choose int the menu.
-     * <p>
-     * @param item the view of  the  row that got chosen.
-     * @return boolean whether the method was operating.
-     */
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        return super.onContextItemSelected(item);
-    }
-
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         String Update;
@@ -79,27 +58,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         db = hlp.getWritableDatabase();
         final EditText et2=new EditText(this);
         final EditText et1=new EditText(this);
-        adb.setNegativeButton("done", new DialogInterface.OnClickListener() {
-            /**
-             * when clicked gets out and saves name.
-             * <p>
-             * @param dialog
-             * @param which
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String forUse = et1.getText().toString();
-                if(forUse.equals(null))
-                    Toast.makeText(MainActivity.this,"enter a name",Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                Data[0] = forUse;
-            }
-        });
+
+
         if (parent.equals(adp1)){
             Update= StudentDATA[position];
             switch (Update) {
-                case "Name":
+                case "NAME":
                     et1.setHint("enter a name");
+                    adb.setNegativeButton("done", new DialogInterface.OnClickListener() {
+                        /**
+                         * when clicked gets out and saves name.
+                         * <p>
+                         * @param dialog
+                         * @param which
+                         */
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String forUse = et1.getText().toString();
+                            if(forUse.equals(null))
+                                Toast.makeText(MainActivity.this,"enter a name",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            Data[0] = forUse;
+                        }
+                    });
                     adb.setView(et1);
                     AlertDialog ad=adb.create();
                     ad.show();

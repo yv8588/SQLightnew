@@ -12,6 +12,5 @@ public class Student {
     public static final String MOTHER="Mother";
     public static final String FATHER_NUMBER="Father_Number";
     public static final String MOTHER_NUMBER="MotherNumber";
-    public static final int IS_ACTIVE=1;//the student is active until updated else.
 
 }

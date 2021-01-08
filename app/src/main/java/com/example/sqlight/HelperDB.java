@@ -11,7 +11,6 @@ import static com.example.sqlight.Grades.TABLE_GRADES;
 import static com.example.sqlight.Student.FATHER;
 import static com.example.sqlight.Student.FATHER_NUMBER;
 import static com.example.sqlight.Student.HOME_NUMBER;
-import static com.example.sqlight.Student.IS_ACTIVE;
 import static com.example.sqlight.Student.KEY_ID;
 import static com.example.sqlight.Student.MOTHER;
 import static com.example.sqlight.Student.MOTHER_NUMBER;
@@ -23,10 +22,11 @@ import static com.example.sqlight.Student.TABLE_STUDENT;
  * a class that helps create the db.
  */
 public class HelperDB extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "dbex.db";
+    private static final String DATABASE_NAME = "newDB.db";
     private static final int DATABASE_VERSION = 1;
     String strCreate, strDelete;
     public HelperDB(Context context) {
+
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -41,7 +41,6 @@ public class HelperDB extends SQLiteOpenHelper {
         strCreate+=" "+MOTHER+" TEXT";
         strCreate+=" "+FATHER_NUMBER+" TEXT";
         strCreate+=" "+MOTHER_NUMBER+" TEXT";
-        strCreate+=" "+IS_ACTIVE+" INTEGER";
         strCreate+=");";
         db.execSQL(strCreate);
 
@@ -64,7 +63,6 @@ public class HelperDB extends SQLiteOpenHelper {
         db.execSQL(strDelete);
         strDelete="DROP TABLE IF EXISTS "+TABLE_GRADES;
         db.execSQL(strDelete);
-
         onCreate(db);
 
     }
