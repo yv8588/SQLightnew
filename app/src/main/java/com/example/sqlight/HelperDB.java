@@ -36,10 +36,10 @@ public class HelperDB extends SQLiteOpenHelper {
         strCreate+=" ("+KEY_ID+" INTEGER PRIMARY KEY,";
         strCreate+=" "+NAME+" TEXT,";
         strCreate+=" "+PHONE_NUMBER+" TEXT,";
-        strCreate+=" "+HOME_NUMBER+" TEXT";
-        strCreate+=" "+FATHER+" TEXT";
-        strCreate+=" "+MOTHER+" TEXT";
-        strCreate+=" "+FATHER_NUMBER+" TEXT";
+        strCreate+=" "+HOME_NUMBER+" TEXT,";
+        strCreate+=" "+FATHER+" TEXT,";
+        strCreate+=" "+MOTHER+" TEXT,";
+        strCreate+=" "+FATHER_NUMBER+" TEXT,";
         strCreate+=" "+MOTHER_NUMBER+" TEXT";
         strCreate+=");";
         db.execSQL(strCreate);

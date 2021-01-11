@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String[]GradesDATA={"CLASS NAME","QUARTER NUMBER","GRADE"};
     ListView listStudent,listGrades;
     ContentValues cv=new ContentValues();
+    ContentValues cv2=new ContentValues();
     ArrayAdapter<String> adp1,adp2;
     AlertDialog.Builder adb;
     @Override
@@ -55,9 +56,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         String Update;
-        String[] Data = {""};
+        String[] Data = new String[1];
         adb=new AlertDialog.Builder(this);
-        db = hlp.getWritableDatabase();
         final EditText et1=new EditText(this);
         adb.setNegativeButton("done", new DialogInterface.OnClickListener() {
             /**
@@ -66,13 +66,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
              * @param dialog
              * @param which
              */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String forUse = et1.getText().toString();
-                if(forUse.equals(null))
-                    Toast.makeText(MainActivity.this,"enter a name",Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                Data[0] = forUse;
+         @Override
+        public void onClick(DialogInterface dialog, int which) {
+             String forUse = et1.getText().toString();
+              if(forUse.equals(null))
+              Toast.makeText(MainActivity.this,"enter value",Toast.LENGTH_SHORT).show();
+              dialog.dismiss();
+              Data[0] = forUse;
+              Toast.makeText(MainActivity.this,Data[0],Toast.LENGTH_SHORT).show();
             }
         });// dialog for every window.
         if (parent.getId()==(R.id.listStudent)){
@@ -83,8 +84,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     adb.setView(et1);
                     AlertDialog ad=adb.create();
                     ad.show();
-                    Toast.makeText(MainActivity.this,Data[0],Toast.LENGTH_SHORT).show();
-                    cv.put(Student.NAME, Data[0]);
+                    cv.put(Student.NAME,Data[0]);
                     break;
                 case "PHONE NUMBER":
                     et1.setHint("the phone number");
@@ -122,16 +122,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     cv.put(Student.FATHER_NUMBER, Data[0]);
                     break;
                 default:
-
+                    et1.setHint("the mother phone number");
                     adb.setView(et1);
+                    AlertDialog ad6=adb.create();
+                    ad6.show();
                     cv.put(Student.MOTHER_NUMBER, Data[0]);
+                    break;
             }
+            db = hlp.getWritableDatabase();
             db.insert(Student.TABLE_STUDENT,null,cv);
             db.close();
         }
 
         else{
-            cv.clear();
             Update=GradesDATA[position];
             switch (Update) {
                 case "CLASS NAME":
@@ -139,23 +142,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     adb.setView(et1);
                     AlertDialog ad10=adb.create();
                     ad10.show();
-                    cv.put(Grades.CLASS_NAME, Data[0]);
+                    cv2.put(Grades.CLASS_NAME, Data[0]);
                     break;
                 case "QUARTER NUMBER":
                     et1.setHint("the quarter number");
                     adb.setView(et1);
                     AlertDialog ad11=adb.create();
                     ad11.show();
-                    cv.put (Grades.QUARTER_NUMBER, Data[0]);
+                    cv2.put (Grades.QUARTER_NUMBER, Data[0]);
                     break;
-                case "GRADE":
+                default:
                     et1.setHint("the grade number");
                     adb.setView(et1);
                     AlertDialog ad12=adb.create();
                     ad12.show();
-                    cv.put(Grades.GRADE, Data[0]);
+                    cv2.put(Grades.GRADE, Data[0]);
+                    break;
             }
-            db.insert(Grades.TABLE_GRADES,null,cv);
+            db=hlp.getWritableDatabase();
+            db.insert(Grades.TABLE_GRADES,null,cv2);
             db.close();
         }
         return false;
@@ -195,5 +200,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void commit(View view) {
     }
 }
