@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import static com.example.sqlight.Grades.CLASS_NAME;
 import static com.example.sqlight.Grades.GRADE;
+import static com.example.sqlight.Grades.ID;
 import static com.example.sqlight.Grades.QUARTER_NUMBER;
 import static com.example.sqlight.Grades.TABLE_GRADES;
 import static com.example.sqlight.Student.FATHER;
@@ -23,7 +24,7 @@ import static com.example.sqlight.Student.TABLE_STUDENT;
  */
 public class HelperDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "newDB.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     String strCreate, strDelete;
     public HelperDB(Context context) {
 
@@ -45,7 +46,7 @@ public class HelperDB extends SQLiteOpenHelper {
         db.execSQL(strCreate);
 
         strCreate="CREATE TABLE "+TABLE_GRADES;
-        strCreate+=" ("+KEY_ID+" INTEGER PRIMARY KEY,";
+        strCreate+=" ("+ID+" INTEGER,";
         strCreate+=" "+CLASS_NAME+" TEXT,";
         strCreate+=" "+QUARTER_NUMBER+" TEXT,";
         strCreate+=" "+GRADE+" INTEGER";
@@ -54,10 +55,10 @@ public class HelperDB extends SQLiteOpenHelper {
     }
 
     @Override
-    /**
-     * @param db the data base.
-      upgrades the data base with new data;
-     **/
+    /** makes a new data base with new data and older.
+     * <p>
+     * @param db the SQLite data base.
+     */
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         strDelete="DROP TABLE IF EXISTS "+TABLE_STUDENT;
         db.execSQL(strDelete);
