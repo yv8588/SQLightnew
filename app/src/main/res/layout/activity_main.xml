@@ -17,11 +17,41 @@
             android:layout_height="0dp"
             android:layout_weight="3" />
 
-        <ListView
-            android:id="@+id/listStudent"
+        <EditText
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="12"></ListView>
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="enter name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="enter phone number"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/homen"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="enter home number"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="commit"
+            android:text="enter to system" />
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -39,35 +69,46 @@
             android:layout_height="0dp"
             android:layout_weight="3" />
 
-        <ListView
-            android:id="@+id/listGrade"
+        <EditText
+            android:id="@+id/father"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4" >
-        </ListView>
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="enter father name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/mother"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="enter mother name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/fatherN"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="enter father number"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/motherN"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="enter mother number"
+            android:inputType="textPassword" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:onClick="commit"
-            android:text="Done" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:onClick="commit2"
-            android:text="done s" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" />
     </LinearLayout>
+
 </LinearLayout>

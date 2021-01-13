@@ -45,6 +45,10 @@ public class showdb extends AppCompatActivity {
             si=new Intent(this,MainActivity.class);
             startActivity(si);
         }
+        else if(s.equals("grades")){
+            si=new Intent(this,grade.class);
+            startActivity(si);
+        }
         else{
             si=new Intent(this,filterdShowdb.class);
             startActivity(si);

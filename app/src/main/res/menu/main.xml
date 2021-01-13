@@ -16,4 +16,8 @@
         android:title= "main activity"
         android:id="@+id/main"
         android:orderInCategory="4"/>
+        <item
+            android:title= "grades"
+            android:id="@+id/grade"
+            android:orderInCategory="4"/>
 </menu>

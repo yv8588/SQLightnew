@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import static com.example.sqlight.Grades.CLASS_NAME;
 import static com.example.sqlight.Grades.GRADE;
-import static com.example.sqlight.Grades.ID;
 import static com.example.sqlight.Grades.QUARTER_NUMBER;
+import static com.example.sqlight.Grades.STUDENT_ID;
 import static com.example.sqlight.Grades.TABLE_GRADES;
 import static com.example.sqlight.Student.FATHER;
 import static com.example.sqlight.Student.FATHER_NUMBER;
@@ -24,7 +24,7 @@ import static com.example.sqlight.Student.TABLE_STUDENT;
  */
 public class HelperDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "newDB.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 6;
     String strCreate, strDelete;
     public HelperDB(Context context) {
 
@@ -46,7 +46,7 @@ public class HelperDB extends SQLiteOpenHelper {
         db.execSQL(strCreate);
 
         strCreate="CREATE TABLE "+TABLE_GRADES;
-        strCreate+=" ("+ID+" INTEGER,";
+        strCreate+=" ("+STUDENT_ID+" INTEGER ,";
         strCreate+=" "+CLASS_NAME+" TEXT,";
         strCreate+=" "+QUARTER_NUMBER+" TEXT,";
         strCreate+=" "+GRADE+" INTEGER";
