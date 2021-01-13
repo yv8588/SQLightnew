@@ -4,16 +4,52 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import static com.example.sqlight.Student.TABLE_STUDENT;
+
 public class showdb extends AppCompatActivity {
+    SQLiteDatabase db;
+    HelperDB hlp;
+    Cursor crsr;
+    ArrayList<String> data_stud = new ArrayList<>();
+    ArrayList<String> data_grade = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showdb);
+        hlp=new HelperDB(this);
+        db=hlp.getWritableDatabase();
+        crsr = db.query(TABLE_STUDENT, null, null, null, null, null, null);
+        int col1 = crsr.getColumnIndex(Student.KEY_ID);
+        int col2 = crsr.getColumnIndex(Student.NAME);
+        int col3 = crsr.getColumnIndex(Student.MOTHER);
+        int col4 = crsr.getColumnIndex(Student.FATHER);
+        int col5 = crsr.getColumnIndex(Student.MOTHER_NUMBER);
+        int col6 = crsr.getColumnIndex(Student.FATHER_NUMBER);
+        int col7 = crsr.getColumnIndex(Student.HOME_NUMBER);
+        crsr.moveToFirst();
+        while (!crsr.isAfterLast()) {
+            int key = crsr.getInt(col1);
+            String name = crsr.getString(col2);
+            String mother = crsr.getString(col3);
+            String father = crsr.getString(col4);
+            String mother_number = crsr.getString(col5);
+            String father_number = crsr.getString(col6);
+            String home_number = crsr.getString(col7);
+            String tmp = "" + key + ", " + name + ", " + mother + ", " + father+","+mother_number+","+father_number+","+home_number;
+            data_stud.add(tmp);
+            crsr.moveToNext();
+        }
+        crsr.close();
+        db.close();
     }
     /**
      * creates the xml general option menu

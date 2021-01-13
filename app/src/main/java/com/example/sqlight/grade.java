@@ -41,16 +41,16 @@ ArrayList<String> names= new ArrayList<>();// students name.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade);
-        stud=(Spinner)findViewById(R.id.namespin);
-        listGrades = (ListView) findViewById(R.id.listGrade);
-        listGrades.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         hlp = new HelperDB(this);
         db = hlp.getWritableDatabase();
         db.close();
-        ArrayAdapter<String> adp2 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, GradesDATA);// the adapter for the second list/
+        stud=(Spinner)findViewById(R.id.namespin);
+        listGrades = (ListView) findViewById(R.id.listGrade);
+        listGrades.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        ArrayAdapter<String> adp2 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, GradesDATA);// the adapter for the list/
         listGrades.setAdapter(adp2);
         listGrades.setOnItemLongClickListener(this);
-        ArrayAdapter<String>spin=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,names);
+        ArrayAdapter<String>spin=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,names);// spinner adapter
         stud.setAdapter(spin);
         stud.setOnItemSelectedListener(this);
         db = hlp.getWritableDatabase();
