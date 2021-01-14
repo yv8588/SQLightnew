@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import static com.example.sqlight.Grades.TABLE_GRADES;
 import static com.example.sqlight.Student.TABLE_STUDENT;
 
 public class showdb extends AppCompatActivity {
@@ -22,14 +23,7 @@ public class showdb extends AppCompatActivity {
     ListView lv;
     ArrayList<String> data_stud = new ArrayList<>();
     ArrayList<Integer>key=new ArrayList<>();
-    ArrayList<String> data_grade = new ArrayList<>();
     ArrayList<String> grade1 = new ArrayList<>();
-    ArrayList<String> grade2 = new ArrayList<>();
-    ArrayList<String> grade3 = new ArrayList<>();
-    ArrayList<String> grade4 = new ArrayList<>();
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +47,34 @@ public class showdb extends AppCompatActivity {
         }
         crsr.close();
         db.close();
-        CustomAdapter customadp = new CustomAdapter(getApplicationContext(),data_stud, grade1, grade2,grade3,grade4);
+        String TABLE = TABLE_GRADES;
+        String[] columns = {Grades.GRADE,Grades.STUDENT_ID,Grades.CLASS_NAME,Grades.QUARTER_NUMBER};
+        String selection = null;
+        String[] selectionArgs = null;
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+        String limit = null;
+        hlp=new HelperDB(this);
+        db=hlp.getWritableDatabase();
+        crsr=db.query(TABLE,columns,selection,selectionArgs,groupBy,having,orderBy,limit);
+        int col1g = crsr.getColumnIndex(Grades.STUDENT_ID);
+        int col2g= crsr.getColumnIndex(Grades.GRADE);
+        int col3g=crsr.getColumnIndex(Grades.CLASS_NAME);
+        int col4g=crsr.getColumnIndex(Grades.QUARTER_NUMBER);
+        crsr.moveToFirst();
+        while ((!crsr.isAfterLast())){
+            int id =crsr.getInt(col1g);
+            String classN=crsr.getString(col3g);
+            String grade=crsr.getString(col2g);
+            String quart=crsr.getString(col4g);
+            String tmp = "" + id + ", " + classN + ", " + grade+","+quart;
+           grade1.add(tmp);
+            crsr.moveToNext();
+        }
+        crsr.close();
+        db.close();
+        CustomAdapter customadp = new CustomAdapter(getApplicationContext(),data_stud, grade1);
         lv.setAdapter(customadp);
 
     }
