@@ -24,7 +24,7 @@ import static com.example.sqlight.Student.TABLE_STUDENT;
  */
 public class HelperDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "newDB.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
     String strCreate, strDelete;
     public HelperDB(Context context) {
 
@@ -46,7 +46,7 @@ public class HelperDB extends SQLiteOpenHelper {
         db.execSQL(strCreate);
 
         strCreate="CREATE TABLE "+TABLE_GRADES;
-        strCreate+=" ("+STUDENT_ID+" INTEGER PRIMARY KEY ,";
+        strCreate+="("+STUDENT_ID+" INTEGER,";
         strCreate+=" "+CLASS_NAME+" TEXT,";
         strCreate+=" "+QUARTER_NUMBER+" TEXT,";
         strCreate+=" "+GRADE+" INTEGER";

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -18,8 +19,16 @@ public class showdb extends AppCompatActivity {
     SQLiteDatabase db;
     HelperDB hlp;
     Cursor crsr;
+    ListView lv;
     ArrayList<String> data_stud = new ArrayList<>();
+    ArrayList<Integer>key=new ArrayList<>();
     ArrayList<String> data_grade = new ArrayList<>();
+    ArrayList<String> grade1 = new ArrayList<>();
+    ArrayList<String> grade2 = new ArrayList<>();
+    ArrayList<String> grade3 = new ArrayList<>();
+    ArrayList<String> grade4 = new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +48,14 @@ public class showdb extends AppCompatActivity {
         while (!crsr.isAfterLast()) {
             int key = crsr.getInt(col1);
             String name = crsr.getString(col2);
-            String mother = crsr.getString(col3);
-            String father = crsr.getString(col4);
-            String mother_number = crsr.getString(col5);
-            String father_number = crsr.getString(col6);
-            String home_number = crsr.getString(col7);
-            String tmp = "" + key + ", " + name + ", " + mother + ", " + father+","+mother_number+","+father_number+","+home_number;
-            data_stud.add(tmp);
+            data_stud.add(name);
             crsr.moveToNext();
         }
         crsr.close();
         db.close();
+        CustomAdapter customadp = new CustomAdapter(getApplicationContext(),data_stud, grade1, grade2,grade3,grade4);
+        lv.setAdapter(customadp);
+
     }
     /**
      * creates the xml general option menu

@@ -45,6 +45,7 @@ ArrayList<String> names= new ArrayList<>();// students name.
         db = hlp.getWritableDatabase();
         db.close();
         stud=(Spinner)findViewById(R.id.namespin);
+        stud.setOnItemSelectedListener(this);
         listGrades = (ListView) findViewById(R.id.listGrade);
         listGrades.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         ArrayAdapter<String> adp2 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, GradesDATA);// the adapter for the list/
@@ -52,8 +53,6 @@ ArrayList<String> names= new ArrayList<>();// students name.
         listGrades.setOnItemLongClickListener(this);
         ArrayAdapter<String>spin=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,names);// spinner adapter
         stud.setAdapter(spin);
-        stud.setOnItemSelectedListener(this);
-        db = hlp.getWritableDatabase();
         String TABLE = TABLE_STUDENT;
         String[] columns = {Student.KEY_ID, Student.NAME};
         String selection = null;
@@ -62,6 +61,7 @@ ArrayList<String> names= new ArrayList<>();// students name.
         String having = null;
         String orderBy = null;
         String limit = null;
+        db = hlp.getWritableDatabase();
         crsr = db.query(TABLE, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
         int col1 = crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
