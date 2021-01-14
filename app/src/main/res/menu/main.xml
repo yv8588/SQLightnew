@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item
-    android:title= "credits screen"
-    android:id="@+id/credit"
-    android:orderInCategory="1"/>
     <item
-        android:title= "show data base"
         android:id="@+id/sdb"
-        android:orderInCategory="2"/>
+        android:orderInCategory="1"
+        android:title="show data base" />
     <item
-        android:title= "filterd data base"
         android:id="@+id/fsdb"
+        android:orderInCategory="2"
+        android:title="filterd data base" />
+    <item
+        android:title= "grades"
+        android:id="@+id/grade"
         android:orderInCategory="3"/>
     <item
-        android:title= "main activity"
+        android:title= "enter student"
         android:id="@+id/main"
         android:orderInCategory="4"/>
-        <item
-            android:title= "grades"
-            android:id="@+id/grade"
-            android:orderInCategory="4"/>
+    <item
+        android:title= "credits screen"
+        android:id="@+id/credit"
+        android:orderInCategory="5"/>
 </menu>

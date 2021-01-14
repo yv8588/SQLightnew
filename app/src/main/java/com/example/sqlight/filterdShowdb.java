@@ -41,7 +41,7 @@ public class filterdShowdb extends AppCompatActivity {
             si = new Intent(this,credits.class);
             startActivity(si);
         }
-        else if (s.equals("main activity")){
+        else if (s.equals("enter student")){
             si=new Intent(this,MainActivity.class);
             startActivity(si);
         }

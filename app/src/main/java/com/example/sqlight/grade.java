@@ -34,7 +34,7 @@ String grade,class_name,quarter;
 ContentValues cv2=new ContentValues();
 Cursor crsr;
 Spinner stud;
-int student_ID;
+String student_ID;
 ArrayList<Integer> keys = new ArrayList<>();// students key id.
 ArrayList<String> names= new ArrayList<>();// students name.
     @Override
@@ -107,7 +107,7 @@ ArrayList<String> names= new ArrayList<>();// students name.
             si=new Intent(this,showdb.class);
             startActivity(si);
         }
-        else if(s.equals("main activity")) {
+        else if(s.equals("enter student")) {
            si=new Intent(this,MainActivity.class);
            startActivity(si);
         }
@@ -124,13 +124,23 @@ ArrayList<String> names= new ArrayList<>();// students name.
      * @param view the commit button.
      */
     public void commit(View view) {
-        cv2.put(Grades.CLASS_NAME, class_name);
-        cv2.put (Grades.QUARTER_NUMBER, quarter);
-        cv2.put(Grades.GRADE, grade); // first column of grades committed into db.
-        cv2.put(Grades.STUDENT_ID,student_ID);//to know witch num of student it was.
-        db=hlp.getWritableDatabase();
-        db.insert(Grades.TABLE_GRADES,null,cv2);
-        db.close();
+        int q=Integer.valueOf(quarter);
+        int g=Integer.valueOf(grade);
+        if(q>4||q<0){
+            Toast.makeText(grade.this, "enter valid quarter number", Toast.LENGTH_SHORT).show();
+        }
+        else if(g>100||g<0){
+            Toast.makeText(grade.this, "enter valid grade", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            cv2.put(Grades.CLASS_NAME, class_name);
+            cv2.put(Grades.QUARTER_NUMBER, quarter);
+            cv2.put(Grades.GRADE, grade); // first column of grades committed into db.
+            cv2.put(Grades.STUDENT_ID, student_ID);//to know witch num of student it was.
+            db = hlp.getWritableDatabase();
+            db.insert(Grades.TABLE_GRADES, null, cv2);
+            db.close();
+        }
     }
 
     @Override
@@ -222,7 +232,7 @@ ArrayList<String> names= new ArrayList<>();// students name.
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        student_ID=keys.get(position);
+        student_ID=keys.get(position).toString();
     }
 
     @Override
