@@ -76,7 +76,6 @@ public class showdb extends AppCompatActivity {
         db.close();
         CustomAdapter customadp = new CustomAdapter(getApplicationContext(),data_stud, grade1);
         lv.setAdapter(customadp);
-
     }
     /**
      * creates the xml general option menu

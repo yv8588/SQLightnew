@@ -77,6 +77,14 @@
             android:inputType="textPersonName" />
 
         <EditText
+            android:id="@+id/fatherN"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="enter father number" />
+
+        <EditText
             android:id="@+id/mother"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -84,14 +92,6 @@
             android:ems="10"
             android:hint="enter mother name"
             android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/fatherN"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="enter father number"/>
 
         <EditText
             android:id="@+id/motherN"

@@ -75,7 +75,6 @@ ArrayList<String> names= new ArrayList<>();// students name.
         }
         crsr.close();
         db.close();
-
     }
     /**
      * creates the xml general option menu.
@@ -133,11 +132,11 @@ ArrayList<String> names= new ArrayList<>();// students name.
             Toast.makeText(grade.this, "enter valid grade", Toast.LENGTH_SHORT).show();
         }
         else {
+            db = hlp.getWritableDatabase();
             cv2.put(Grades.CLASS_NAME, class_name);
             cv2.put(Grades.QUARTER_NUMBER, quarter);
             cv2.put(Grades.GRADE, grade); // first column of grades committed into db.
             cv2.put(Grades.STUDENT_ID, student_ID);//to know witch num of student it was.
-            db = hlp.getWritableDatabase();
             db.insert(Grades.TABLE_GRADES, null, cv2);
             db.close();
         }
@@ -172,7 +171,6 @@ ArrayList<String> names= new ArrayList<>();// students name.
                 adb.setView(et1);
                 AlertDialog ad10=adb.create();
                 ad10.show();
-                Toast.makeText(grade.this, class_name, Toast.LENGTH_SHORT).show();
                 break;
             case "QUARTER NUMBER":
                 et1.setHint("the quarter number");
@@ -196,7 +194,6 @@ ArrayList<String> names= new ArrayList<>();// students name.
                 adb.setView(et1);
                 AlertDialog ad11=adb.create();
                 ad11.show();
-                Toast.makeText(grade.this, quarter, Toast.LENGTH_SHORT).show();
                 break;
             default:
                 et1.setHint("the grade number");
@@ -220,7 +217,6 @@ ArrayList<String> names= new ArrayList<>();// students name.
                 adb.setView(et1);
                 AlertDialog ad12=adb.create();
                 ad12.show();
-                Toast.makeText(grade.this, grade, Toast.LENGTH_SHORT).show();
                 break;
         }
         return false;
@@ -232,7 +228,11 @@ ArrayList<String> names= new ArrayList<>();// students name.
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        student_ID=keys.get(position).toString();
+        if (parent.getId() == R.id.namespin) {
+            Integer tmp = keys.get(position);
+            student_ID = tmp.toString();
+            Toast.makeText(this, student_ID, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
