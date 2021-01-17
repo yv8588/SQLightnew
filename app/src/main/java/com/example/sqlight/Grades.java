@@ -8,4 +8,5 @@ public class Grades {
     public static final String QUARTER_NUMBER="QuarterNumber";
     public static final String CLASS_NAME="ClassName";
     public static final String GRADE="Grade";
+    public static final String ACTIVE="Active";
 }

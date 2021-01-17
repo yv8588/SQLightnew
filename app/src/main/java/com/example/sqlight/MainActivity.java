@@ -1,7 +1,7 @@
 package com.example.sqlight;
 /**
  * @author yoad wolfson.
- * @version 1.5
+ * @version 1.6
  * SQLite data base exercise.
  */
 import androidx.annotation.NonNull;
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity  {
         cv.put(Student.FATHER, father);
         cv.put(Student.MOTHER, mother);
         cv.put(Student.HOME_NUMBER, home_number);
+        cv.put(Student.IS_ACTIVE,"1");
         cv.put(Student.FATHER_NUMBER, father_number);// first column student committed into db.
         db = hlp.getWritableDatabase();
         db.insert(Student.TABLE_STUDENT,null,cv);

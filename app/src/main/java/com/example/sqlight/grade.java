@@ -137,6 +137,7 @@ ArrayList<String> names= new ArrayList<>();// students name.
             cv2.put(Grades.QUARTER_NUMBER, quarter);
             cv2.put(Grades.GRADE, grade); // first column of grades committed into db.
             cv2.put(Grades.STUDENT_ID, student_ID);//to know witch num of student it was.
+            cv2.put(Grades.ACTIVE,"1");
             db.insert(Grades.TABLE_GRADES, null, cv2);
             db.close();
         }

@@ -17,26 +17,29 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/nametv"
+        <EditText
+            android:id="@+id/name_et"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:ems="10"
+            android:hint="name" />
 
-        <TextView
-            android:id="@+id/numtv"
+        <EditText
+            android:id="@+id/num_et"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:ems="10"
+            android:hint="number" />
 
-        <TextView
-            android:id="@+id/home_numbertv"
+        <EditText
+            android:id="@+id/home_number_et"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:ems="10"
+            android:hint="home number"/>
 
         <Spinner
             android:id="@+id/spinames"
@@ -61,37 +64,60 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/fathertv"
+       <EditText
+            android:id="@+id/father_et"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:ems="10"
+            android:hint ="father name" />
 
-        <TextView
-            android:id="@+id/father_numbertv"
+        <EditText
+            android:id="@+id/father_number_et"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:ems="10"
+            android:hint="father number" />
 
-        <TextView
-            android:id="@+id/mothertv"
+        <EditText
+            android:id="@+id/mother_et"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:ems="10"
+            android:hint="mother name" />
 
-        <TextView
-            android:id="@+id/mother_numbertv"
+        <EditText
+            android:id="@+id/mother_number_et"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:hint="mother number"
+            android:ems="10" />
+
+        <Button
+            android:id="@+id/update"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="update"
+            android:text="update info" />
+
+        <Switch
+            android:id="@+id/isActive"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="is active?"
+            android:textOff="non"
+            android:textOn="active"
+            android:onClick="off"
+            android:checked="true" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="8" />
+            android:layout_weight="5" />
     </LinearLayout>
 </LinearLayout>
