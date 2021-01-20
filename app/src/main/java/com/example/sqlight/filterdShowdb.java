@@ -21,7 +21,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static com.example.sqlight.Grades.ACTIVE;
 import static com.example.sqlight.Grades.GRADE;
+import static com.example.sqlight.Grades.STUDENT_ID;
 import static com.example.sqlight.Grades.TABLE_GRADES;
 import static com.example.sqlight.Student.IS_ACTIVE;
 import static com.example.sqlight.Student.KEY_ID;
@@ -29,29 +31,31 @@ import static com.example.sqlight.Student.MOTHER;
 import static com.example.sqlight.Student.TABLE_STUDENT;
 
 public class filterdShowdb extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-HelperDB hlp;
-SQLiteDatabase db;
-Cursor crsr;
-Spinner spinames;
-EditText name_et,num_et,home_number_et,father_et,father_number_et,mother_et,mother_number_et;
-ArrayList<String>namesL=new ArrayList<>();
-ArrayList<String>fatherL=new ArrayList<>();
-ArrayList<String>motherL=new ArrayList<>();
-ArrayList<String>fatherNL=new ArrayList<>();
-ArrayList<String>motherNL=new ArrayList<>();
-ArrayList<String>homeNL=new ArrayList<>();
-ArrayList<String>phoneNL=new ArrayList<>();
-ArrayAdapter<String> adp;
-int pos;
-Switch isActive;
-ContentValues cv=new ContentValues();
-ContentValues cv2=new ContentValues();
+    Switch isActive;
+    Spinner spinames;
+    EditText name_et,num_et,home_number_et,father_et,father_number_et,mother_et,mother_number_et;
+    ArrayList<String>namesL=new ArrayList<>();
+    ArrayList<String>fatherL=new ArrayList<>();
+    ArrayList<String>motherL=new ArrayList<>();
+    ArrayList<String>fatherNL=new ArrayList<>();
+    ArrayList<String>motherNL=new ArrayList<>();
+    ArrayList<String>homeNL=new ArrayList<>();
+    ArrayList<String>phoneNL=new ArrayList<>();
+    ArrayList<Integer>keys=new ArrayList<>();
+    ArrayAdapter<String> adp;
+    int pos;
+    HelperDB hlp;
+    SQLiteDatabase db;
+    Cursor crsr;
+    ContentValues cv=new ContentValues();
+    ContentValues cv2=new ContentValues();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filterd_showdb);
         hlp=new HelperDB(this);
         db=hlp.getWritableDatabase();
+        db.close();
         spinames=(Spinner)findViewById(R.id.spinames);
         name_et=(EditText) findViewById(R.id.name_et);
         num_et=(EditText) findViewById(R.id.num_et);
@@ -61,8 +65,10 @@ ContentValues cv2=new ContentValues();
         father_number_et=(EditText) findViewById(R.id.father_number_et);
         mother_number_et=(EditText)findViewById(R.id.mother_number_et);
         isActive=(Switch)findViewById(R.id.isActive);
+        db=hlp.getWritableDatabase();
         crsr = db.query(TABLE_STUDENT, null, null, null, null, null, null, null);
-        int col1=crsr.getColumnIndex(IS_ACTIVE);
+        int col1=crsr.getColumnIndex(Student.IS_ACTIVE);
+        int col9=crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
         int col3 = crsr.getColumnIndex(Student.PHONE_NUMBER);
         int col4 = crsr.getColumnIndex(Student.HOME_NUMBER);
@@ -81,6 +87,8 @@ ContentValues cv2=new ContentValues();
                 String mother = crsr.getString(col6);
                 String fatherN = crsr.getString(col7);
                 String motherN = crsr.getString(col8);
+                Integer key=crsr.getInt(col9);
+                keys.add(key);
                 fatherL.add(father);
                 fatherNL.add(fatherN);
                 motherL.add(mother);
@@ -93,6 +101,7 @@ ContentValues cv2=new ContentValues();
         }
         crsr.close();
         db.close();
+
         adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,namesL);// spinner adapter
         spinames.setAdapter(adp);
         spinames.setOnItemSelectedListener(this);
@@ -128,7 +137,11 @@ ContentValues cv2=new ContentValues();
             si=new Intent(this,MainActivity.class);
             startActivity(si);
         }
-        else{
+        else if(s.equals("grades")){
+            si=new Intent(this,grade.class);
+            startActivity(si);
+        }
+        else if(s.equals("filterd data base" )){
             si=new Intent(this,showdb.class);
             startActivity(si);
         }
@@ -169,14 +182,15 @@ ContentValues cv2=new ContentValues();
             db=hlp.getWritableDatabase();
             cv.put(Student.NAME,name);
             db.update(TABLE_STUDENT,cv,Student.NAME+"=?",new String[]{namesL.get(pos)});
-            fatherL.set(pos,name);
+            namesL.set(pos,name);
+            adp.notifyDataSetChanged();
             db.close();
         }
         else if(father!=null&&!father.equals(fatherL.get(pos))){
             db=hlp.getWritableDatabase();
             cv.put(Student.FATHER,father);
             db.update(TABLE_STUDENT,cv,Student.FATHER+"=?",new String[]{fatherL.get(pos)});
-            namesL.set(pos,father);
+            fatherL.set(pos,father);
             db.close();
         }
         else if(mother!=null&&!mother.equals(motherL.get(pos))){
@@ -222,19 +236,43 @@ ContentValues cv2=new ContentValues();
      */
     public void off(View view) {
         if(!isActive.isChecked()){
-            cv.put(Student.IS_ACTIVE,"0");
             db = hlp.getWritableDatabase();
-            db.update(TABLE_STUDENT,cv, IS_ACTIVE+"=?", new String[]{"1"});
+            db.delete(TABLE_STUDENT, KEY_ID+"=?", new String[]{Integer.toString(pos+1)});
+            cv.put(Student.IS_ACTIVE,"0");
+            cv.put(Student.NAME,namesL.get(pos));
+            cv.put(Student.HOME_NUMBER,homeNL.get(pos));
+            cv.put(Student.MOTHER,motherL.get(pos));
+            cv.put(Student.MOTHER_NUMBER,motherNL.get(pos));
+            cv.put(Student.FATHER,fatherL.get(pos));
+            cv.put(Student.FATHER_NUMBER,fatherNL.get(pos));
+            db.insert(TABLE_STUDENT,null,cv);
             db.close();
-            Toast.makeText(this,"student deleted",Toast.LENGTH_SHORT).show();
+            // update the db with new student in active
+
+            db = hlp.getWritableDatabase();
+            crsr = db.query(TABLE_STUDENT, new String[]{Student.KEY_ID}, null, null, null, null, null, null);
+            int col1=crsr.getColumnIndex(Student.KEY_ID);
+            crsr.moveToFirst();
+            Integer id=0;
+            while (!crsr.isAfterLast()) {
+                int key=crsr.getInt(col1);
+                id=key;
+                crsr.moveToNext();
+            }
+            crsr.close();
+            cv.put(Grades.STUDENT_ID,id.toString());
+            db.update(TABLE_GRADES,cv, Grades.STUDENT_ID+"=?", new String[]{keys.get(pos).toString()});
+            db.close();
+            Toast.makeText(this,"student DeActivated",Toast.LENGTH_SHORT).show();
             namesL.remove(pos);
+            adp.notifyDataSetChanged();
             fatherL.remove(pos);
             fatherNL.remove(pos);
             motherL.remove(pos);
             motherNL.remove(pos);
             homeNL.remove(pos);
             phoneNL.remove(pos);
-            adp.notifyDataSetChanged();
+            keys.remove(pos);
             name_et.setText("");
             num_et.setText("");
             home_number_et.setText("");

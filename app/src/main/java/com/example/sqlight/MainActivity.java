@@ -1,7 +1,7 @@
 package com.example.sqlight;
 /**
  * @author yoad wolfson.
- * @version 1.6
+ * @version 1.8
  * SQLite data base exercise.
  */
 import androidx.annotation.NonNull;
@@ -69,15 +69,15 @@ public class MainActivity extends AppCompatActivity  {
             startActivity(si);
         }
         else if (s.equals("show data base")){
-            si=new Intent(this,showdb.class);
+            si=new Intent(this,filterdShowdb.class);
             startActivity(si);
         }
         else if(s.equals("grades")){
             si=new Intent(this,grade.class);
             startActivity(si);
         }
-        else{
-            si=new Intent(this,filterdShowdb.class);
+        else if(s.equals("filterd data base") ){
+            si=new Intent(this,showdb.class);
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);

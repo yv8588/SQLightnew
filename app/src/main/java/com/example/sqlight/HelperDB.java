@@ -26,7 +26,7 @@ import static com.example.sqlight.Student.TABLE_STUDENT;
  */
 public class HelperDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "newDB.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 12;
     String strCreate, strDelete;
     public HelperDB(Context context) {
 

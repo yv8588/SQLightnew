@@ -37,7 +37,7 @@ public class credits extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent si;
         String s=item.getTitle().toString();
-        if(s.equals("show data base")) {
+        if(s.equals("filterd data base")) {
             si = new Intent(this,showdb.class);
             startActivity(si);
         }
@@ -45,8 +45,12 @@ public class credits extends AppCompatActivity {
             si=new Intent(this,MainActivity.class);
             startActivity(si);
         }
-        else{
+        else if(s.equals("show data base")){
             si=new Intent(this,filterdShowdb.class);
+            startActivity(si);
+        }
+        else if(s.equals("grades")){
+            si=new Intent(this,grade.class);
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);

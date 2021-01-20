@@ -9,73 +9,64 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import static com.example.sqlight.Grades.TABLE_GRADES;
 import static com.example.sqlight.Student.TABLE_STUDENT;
 
-public class showdb extends AppCompatActivity {
+public class showdb extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     SQLiteDatabase db;
     HelperDB hlp;
     Cursor crsr;
     ListView lv;
+    TextView show_tv;
+    Spinner spinner;
     ArrayList<String> data_stud = new ArrayList<>();
-    ArrayList<Integer>key=new ArrayList<>();
-    ArrayList<String> grade1 = new ArrayList<>();
+    ArrayList<Integer>keys=new ArrayList<>();
+    ArrayList<String>classL=new ArrayList<>();
+    String s;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showdb);
         hlp=new HelperDB(this);
         db=hlp.getWritableDatabase();
-        crsr = db.query(TABLE_STUDENT, null, null, null, null, null, null);
+        String[] columns = {Student.NAME,Student.KEY_ID};
+        crsr = db.query(TABLE_STUDENT, columns, Student.IS_ACTIVE+"=?",new String[]{"1"} , null, null, null);
         int col1 = crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
-        int col3 = crsr.getColumnIndex(Student.MOTHER);
-        int col4 = crsr.getColumnIndex(Student.FATHER);
-        int col5 = crsr.getColumnIndex(Student.MOTHER_NUMBER);
-        int col6 = crsr.getColumnIndex(Student.FATHER_NUMBER);
-        int col7 = crsr.getColumnIndex(Student.HOME_NUMBER);
         crsr.moveToFirst();
         while (!crsr.isAfterLast()) {
             int key = crsr.getInt(col1);
             String name = crsr.getString(col2);
             data_stud.add(name);
+            keys.add(key);
             crsr.moveToNext();
         }
         crsr.close();
-        db.close();
-        String TABLE = TABLE_GRADES;
-        String[] columns = {Grades.GRADE,Grades.STUDENT_ID,Grades.CLASS_NAME,Grades.QUARTER_NUMBER};
-        String selection = null;
-        String[] selectionArgs = null;
-        String groupBy = null;
-        String having = null;
-        String orderBy = null;
-        String limit = null;
-        hlp=new HelperDB(this);
-        db=hlp.getWritableDatabase();
-        crsr=db.query(TABLE,columns,selection,selectionArgs,groupBy,having,orderBy,limit);
-        int col1g = crsr.getColumnIndex(Grades.STUDENT_ID);
-        int col2g= crsr.getColumnIndex(Grades.GRADE);
+        crsr=db.query(TABLE_GRADES,new String[]{Grades.CLASS_NAME}, null, null, null, null, null);
         int col3g=crsr.getColumnIndex(Grades.CLASS_NAME);
-        int col4g=crsr.getColumnIndex(Grades.QUARTER_NUMBER);
         crsr.moveToFirst();
         while ((!crsr.isAfterLast())){
-            int id =crsr.getInt(col1g);
             String classN=crsr.getString(col3g);
-            String grade=crsr.getString(col2g);
-            String quart=crsr.getString(col4g);
-            String tmp = "" + id + ", " + classN + ", " + grade+","+quart;
-           grade1.add(tmp);
+            if(!classL.contains(classN)){
+                classL.add(classN); // adds all uniqe.
+            }
             crsr.moveToNext();
         }
         crsr.close();
         db.close();
-        CustomAdapter customadp = new CustomAdapter(getApplicationContext(),data_stud, grade1);
-        lv.setAdapter(customadp);
+        spinner=(Spinner)findViewById(R.id.spinner_byName);
+        show_tv=(TextView)findViewById(R.id.show_tv);
+        spinner.setOnItemSelectedListener(this);
+        show_tv.setText("");
     }
     /**
      * creates the xml general option menu
@@ -111,10 +102,103 @@ public class showdb extends AppCompatActivity {
             si=new Intent(this,grade.class);
             startActivity(si);
         }
-        else{
+        else if(s.equals("show data base")){
             si=new Intent(this,filterdShowdb.class);
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);
     }
-}
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        show_tv.setText("");
+        if(s.equals("class")){
+            String tmp=classL.get(position);
+            db=hlp.getWritableDatabase();
+            crsr=db.query(TABLE_GRADES,null,Grades.CLASS_NAME+"=?",new String[]{tmp},null,null,null,null);
+            int col1g = crsr.getColumnIndex(Grades.STUDENT_ID);
+            int col2g= crsr.getColumnIndex(Grades.GRADE);
+            int col4g=crsr.getColumnIndex(Grades.QUARTER_NUMBER);
+            crsr.moveToFirst();
+            while(!crsr.isAfterLast()){
+                int key=crsr.getInt(col1g);
+                int index =keys.indexOf(key);
+                String n=data_stud.get(index);
+                Integer grade=crsr.getInt(col2g);
+                String quarter=crsr.getString(col4g);
+                String info=n+","+"quarter"+":"+quarter+","+grade.toString();// name quarter num and grade(class name is known)
+                show_tv.setText(show_tv.getText().toString()+"\n"+info);
+                crsr.moveToNext();
+            }
+            crsr.close();
+            db.close();
+        }
+
+        else if(s.equals("name")){
+            db=hlp.getWritableDatabase();
+            Integer a=keys.get(position); //the student id.
+            String sa=a.toString();
+            String[]arg=new String[]{sa};
+            crsr=db.query(TABLE_GRADES,null,Grades.STUDENT_ID+"=?",arg,null,null,null,null);
+            int col2g= crsr.getColumnIndex(Grades.GRADE);
+            int col4g=crsr.getColumnIndex(Grades.QUARTER_NUMBER);
+            int col5g=crsr.getColumnIndex(Grades.CLASS_NAME);
+            crsr.moveToFirst();
+            while(!crsr.isAfterLast()) {
+                Integer grade = crsr.getInt(col2g);
+                String quarter = crsr.getString(col4g);
+                String classn=crsr.getString(col5g);
+                String info = classn+","+"quarter"+":"+quarter+","+grade.toString();// class name quarter num and grade(name is known)
+                show_tv.setText(show_tv.getText().toString()+"\n"+info);
+                crsr.moveToNext();
+            }
+            crsr.close();
+            db.close();
+        }
+        else if(s.equals("grade")){
+            db=hlp.getWritableDatabase();
+            String tmp=classL.get(position);
+            crsr=db.query(TABLE_GRADES,null,Grades.CLASS_NAME+"=?",new String[]{tmp},null,null,Grades.GRADE,null);
+            int col1g = crsr.getColumnIndex(Grades.STUDENT_ID);
+            int col2g= crsr.getColumnIndex(Grades.GRADE);
+            int col4g=crsr.getColumnIndex(Grades.QUARTER_NUMBER);
+            int col5g=crsr.getColumnIndex(Grades.CLASS_NAME);
+            crsr.moveToFirst();
+            while(!crsr.isAfterLast()) {
+                int key = crsr.getInt(col1g);
+                Integer grade = crsr.getInt(col2g);
+                String quarter = crsr.getString(col4g);
+                String classn=crsr.getString(col5g);
+                int index =keys.indexOf(key);
+                String n=data_stud.get(index);
+                String info=n+","+"quarter"+":"+quarter+","+grade.toString();// name quarter num and grade(class name is known)
+                show_tv.setText(show_tv.getText().toString()+"\n"+info);
+                crsr.moveToNext();
+            }
+            crsr.close();
+            db.close();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public void sort(View view) {
+        ArrayAdapter<String>adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,classL);// spinner adapter for high to low class sort.
+        spinner.setAdapter(adp);
+        s="grade";// defult.
+    }
+
+    public void name(View view) {
+        ArrayAdapter<String> adp = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, data_stud);// spinner adapter for name sort.
+        spinner.setAdapter(adp);
+        s="name";
+    }
+    public void byClass(View view) {
+        ArrayAdapter<String>adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,classL);// spinner adapter for class sort.
+        spinner.setAdapter(adp);
+        s="class";
+     }
+    }

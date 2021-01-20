@@ -24,19 +24,20 @@ import java.util.ArrayList;
 
 import static com.example.sqlight.Student.TABLE_STUDENT;
 
-public class grade extends AppCompatActivity implements AdapterView.OnItemLongClickListener,AdapterView.OnItemSelectedListener{
-ListView listGrades;
-SQLiteDatabase db;//the SQLite data base.
-HelperDB hlp;// the class who builds the data base.
-String[]GradesDATA={"CLASS NAME","QUARTER NUMBER","GRADE"};
-AlertDialog.Builder adb;
-String grade,class_name,quarter;
-ContentValues cv2=new ContentValues();
-Cursor crsr;
-Spinner stud;
-String student_ID;
-ArrayList<Integer> keys = new ArrayList<>();// students key id.
-ArrayList<String> names= new ArrayList<>();// students name.
+public class grade extends AppCompatActivity implements AdapterView.OnItemLongClickListener,
+        AdapterView.OnItemSelectedListener{
+    ListView listGrades;
+    SQLiteDatabase db;//the SQLite data base.
+    HelperDB hlp;// the class who builds the data base.
+    String[]GradesDATA={"CLASS NAME","QUARTER NUMBER","GRADE"};
+    AlertDialog.Builder adb;
+    String grade,class_name,quarter;
+    ContentValues cv2=new ContentValues();
+    Cursor crsr;
+    Spinner namespin;
+    String student_ID;
+    ArrayList<Integer> keys = new ArrayList<>();// students key id.
+    ArrayList<String> names= new ArrayList<>();// students name.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,25 +45,20 @@ ArrayList<String> names= new ArrayList<>();// students name.
         hlp = new HelperDB(this);
         db = hlp.getWritableDatabase();
         db.close();
-        stud=(Spinner)findViewById(R.id.namespin);
-        stud.setOnItemSelectedListener(this);
+
+        namespin=(Spinner)findViewById(R.id.namespin);
         listGrades = (ListView) findViewById(R.id.listGrade);
+
         listGrades.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listGrades.setOnItemLongClickListener(this);
         ArrayAdapter<String> adp2 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, GradesDATA);// the adapter for the list/
         listGrades.setAdapter(adp2);
-        listGrades.setOnItemLongClickListener(this);
-        ArrayAdapter<String>spin=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,names);// spinner adapter
-        stud.setAdapter(spin);
+        namespin.setOnItemSelectedListener(this);
+
         String TABLE = TABLE_STUDENT;
         String[] columns = {Student.KEY_ID, Student.NAME};
-        String selection = null;
-        String[] selectionArgs = null;
-        String groupBy = null;
-        String having = null;
-        String orderBy = null;
-        String limit = null;
         db = hlp.getWritableDatabase();
-        crsr = db.query(TABLE, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+        crsr = db.query(TABLE, columns, null,null, null, null, null, null);
         int col1 = crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
         crsr.moveToFirst();
@@ -72,9 +68,12 @@ ArrayList<String> names= new ArrayList<>();// students name.
             keys.add(key);
             names.add(name);
             crsr.moveToNext();
-        }
+        }// creates keys and names array list with same index key_id to name.
         crsr.close();
         db.close();
+
+        ArrayAdapter<String>spin=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,names);// spinner adapter
+        namespin.setAdapter(spin);
     }
     /**
      * creates the xml general option menu.
@@ -103,15 +102,15 @@ ArrayList<String> names= new ArrayList<>();// students name.
             startActivity(si);
         }
         else if (s.equals("show data base")){
-            si=new Intent(this,showdb.class);
+            si=new Intent(this,filterdShowdb.class);
             startActivity(si);
         }
         else if(s.equals("enter student")) {
            si=new Intent(this,MainActivity.class);
            startActivity(si);
         }
-        else{
-            si=new Intent(this,filterdShowdb.class);
+        else if(s.equals("filterd data base")){
+            si=new Intent(this,showdb.class);
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);
@@ -229,11 +228,9 @@ ArrayList<String> names= new ArrayList<>();// students name.
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == R.id.namespin) {
             Integer tmp = keys.get(position);
             student_ID = tmp.toString();
             Toast.makeText(this, student_ID, Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
