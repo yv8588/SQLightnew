@@ -24,17 +24,17 @@ import java.util.ArrayList;
 
 import static com.example.sqlight.Student.TABLE_STUDENT;
 
-public class grade extends AppCompatActivity implements AdapterView.OnItemLongClickListener,
-        AdapterView.OnItemSelectedListener{
+public class grade extends AppCompatActivity implements AdapterView.OnItemLongClickListener
+        , AdapterView.OnItemSelectedListener{
+    Spinner namespin;
     ListView listGrades;
     SQLiteDatabase db;//the SQLite data base.
     HelperDB hlp;// the class who builds the data base.
-    String[]GradesDATA={"CLASS NAME","QUARTER NUMBER","GRADE"};
-    AlertDialog.Builder adb;
-    String grade,class_name,quarter;
     ContentValues cv2=new ContentValues();
     Cursor crsr;
-    Spinner namespin;
+    AlertDialog.Builder adb;
+    String[]GradesDATA={"CLASS NAME","QUARTER NUMBER","GRADE"};
+    String grade,class_name,quarter;
     String student_ID;
     ArrayList<Integer> keys = new ArrayList<>();// students key id.
     ArrayList<String> names= new ArrayList<>();// students name.
@@ -58,7 +58,7 @@ public class grade extends AppCompatActivity implements AdapterView.OnItemLongCl
         String TABLE = TABLE_STUDENT;
         String[] columns = {Student.KEY_ID, Student.NAME};
         db = hlp.getWritableDatabase();
-        crsr = db.query(TABLE, columns, null,null, null, null, null, null);
+        crsr = db.query(TABLE, columns, Student.IS_ACTIVE+"=?",new String[]{"1"}, null, null, null, null);
         int col1 = crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
         crsr.moveToFirst();

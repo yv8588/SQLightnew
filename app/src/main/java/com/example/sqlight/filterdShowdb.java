@@ -48,7 +48,6 @@ public class filterdShowdb extends AppCompatActivity implements AdapterView.OnIt
     SQLiteDatabase db;
     Cursor crsr;
     ContentValues cv=new ContentValues();
-    ContentValues cv2=new ContentValues();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +65,7 @@ public class filterdShowdb extends AppCompatActivity implements AdapterView.OnIt
         mother_number_et=(EditText)findViewById(R.id.mother_number_et);
         isActive=(Switch)findViewById(R.id.isActive);
         db=hlp.getWritableDatabase();
-        crsr = db.query(TABLE_STUDENT, null, null, null, null, null, null, null);
+        crsr = db.query(TABLE_STUDENT, null, IS_ACTIVE+"=?", new String[]{"1"}, null, null, null, null);
         int col1=crsr.getColumnIndex(Student.IS_ACTIVE);
         int col9=crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
@@ -148,6 +147,14 @@ public class filterdShowdb extends AppCompatActivity implements AdapterView.OnIt
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * when item selected in the spinner(a name) show the person info.
+     * <p>
+     * @param parent the spinner.
+     * @param view the row in the spinner.
+     * @param position the place in the Array list.
+     * @param id the place in the spinner.
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         pos=position;
@@ -280,6 +287,9 @@ public class filterdShowdb extends AppCompatActivity implements AdapterView.OnIt
             mother_et.setText("");
             father_number_et.setText("");
             mother_number_et.setText("");
+        }
+        else{
+
         }
     }
 }

@@ -32,7 +32,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="enter phone number" />
+            android:hint="enter phone number"
+            android:inputType="phone"/>
 
         <EditText
             android:id="@+id/homen"
@@ -40,7 +41,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="enter home number" />
+            android:hint="enter home number"
+            android:inputType="number"/>
 
         <Button
             android:id="@+id/button"
@@ -82,7 +84,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="enter father number" />
+            android:hint="enter father number"
+            android:inputType="phone"/>
 
         <EditText
             android:id="@+id/mother"
@@ -99,7 +102,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="enter mother number" />
+            android:hint="enter mother number"
+            android:inputType="phone"/>
 
         <Space
             android:layout_width="match_parent"

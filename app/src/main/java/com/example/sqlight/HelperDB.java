@@ -33,6 +33,11 @@ public class HelperDB extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * creates the data base.
+     * <p>
+     * @param db the data base.
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         strCreate="CREATE TABLE "+TABLE_STUDENT;

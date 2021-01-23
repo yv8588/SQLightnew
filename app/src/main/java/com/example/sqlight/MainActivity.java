@@ -83,6 +83,11 @@ public class MainActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * when commit in system clicked enters the info into new row in the db (at least a name and a phone number).
+     * <p>
+     * @param view the button who got clicked.
+     */
     public void commit(View view) {
         name=nameE.getText().toString();
         phone_number=numberE.getText().toString();

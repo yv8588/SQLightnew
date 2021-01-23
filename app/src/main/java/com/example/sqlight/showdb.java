@@ -22,23 +22,27 @@ import static com.example.sqlight.Grades.TABLE_GRADES;
 import static com.example.sqlight.Student.TABLE_STUDENT;
 
 public class showdb extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    SQLiteDatabase db;
-    HelperDB hlp;
-    Cursor crsr;
     ListView lv;
     TextView show_tv;
     Spinner spinner;
+    SQLiteDatabase db;
+    HelperDB hlp;
+    Cursor crsr;
     ArrayList<String> data_stud = new ArrayList<>();
     ArrayList<Integer>keys=new ArrayList<>();
     ArrayList<String>classL=new ArrayList<>();
+    String[] columns = {Student.NAME,Student.KEY_ID};
     String s;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showdb);
+        spinner=(Spinner)findViewById(R.id.spinner_byName);
+        show_tv=(TextView)findViewById(R.id.show_tv);
+        spinner.setOnItemSelectedListener(this);
+        show_tv.setText("");
         hlp=new HelperDB(this);
         db=hlp.getWritableDatabase();
-        String[] columns = {Student.NAME,Student.KEY_ID};
         crsr = db.query(TABLE_STUDENT, columns, Student.IS_ACTIVE+"=?",new String[]{"1"} , null, null, null);
         int col1 = crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
@@ -57,16 +61,12 @@ public class showdb extends AppCompatActivity implements AdapterView.OnItemSelec
         while ((!crsr.isAfterLast())){
             String classN=crsr.getString(col3g);
             if(!classL.contains(classN)){
-                classL.add(classN); // adds all uniqe.
+                classL.add(classN); // adds all unique.
             }
             crsr.moveToNext();
         }
         crsr.close();
         db.close();
-        spinner=(Spinner)findViewById(R.id.spinner_byName);
-        show_tv=(TextView)findViewById(R.id.show_tv);
-        spinner.setOnItemSelectedListener(this);
-        show_tv.setText("");
     }
     /**
      * creates the xml general option menu
@@ -109,6 +109,14 @@ public class showdb extends AppCompatActivity implements AdapterView.OnItemSelec
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * when item selected in the spinner making a sort in the way was chosen.
+     * <p>
+     * @param parent the spinner that got clicked.
+     * @param view the row view.
+     * @param position the position in the array list.
+     * @param id the position in the spinner.
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         show_tv.setText("");
@@ -185,17 +193,31 @@ public class showdb extends AppCompatActivity implements AdapterView.OnItemSelec
 
     }
 
+    /**
+     * makes an adapter for a class name Array list and spinner to choose what class to sort by(high to low grades).
+     * <p>
+     * @param view the button.
+     */
     public void sort(View view) {
         ArrayAdapter<String>adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,classL);// spinner adapter for high to low class sort.
         spinner.setAdapter(adp);
-        s="grade";// defult.
+        s="grade";// default.
     }
-
+    /**
+     * makes an adapter for a name Array list and spinner to choose what name to sort by.
+     * <p>
+     * @param view the button.
+     */
     public void name(View view) {
         ArrayAdapter<String> adp = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, data_stud);// spinner adapter for name sort.
         spinner.setAdapter(adp);
         s="name";
     }
+    /**
+     * makes an adapter for a class name Array list and spinner to choose what class name to sort by.
+     * <p>
+     * @param view the button.
+     */
     public void byClass(View view) {
         ArrayAdapter<String>adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,classL);// spinner adapter for class sort.
         spinner.setAdapter(adp);
