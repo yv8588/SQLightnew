@@ -104,16 +104,12 @@
             android:onClick="update"
             android:text="update info" />
 
-        <Switch
-            android:id="@+id/isActive"
+        <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="is active?"
-            android:textOff="non"
-            android:textOn="active"
-            android:onClick="off"
-            android:checked="true" />
+            android:onClick="del"
+            android:text="delete student" />
 
         <Space
             android:layout_width="match_parent"

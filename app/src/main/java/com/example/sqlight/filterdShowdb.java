@@ -15,23 +15,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static com.example.sqlight.Grades.ACTIVE;
-import static com.example.sqlight.Grades.GRADE;
-import static com.example.sqlight.Grades.STUDENT_ID;
 import static com.example.sqlight.Grades.TABLE_GRADES;
-import static com.example.sqlight.Student.IS_ACTIVE;
 import static com.example.sqlight.Student.KEY_ID;
-import static com.example.sqlight.Student.MOTHER;
 import static com.example.sqlight.Student.TABLE_STUDENT;
 
 public class filterdShowdb extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    Switch isActive;
     Spinner spinames;
     EditText name_et,num_et,home_number_et,father_et,father_number_et,mother_et,mother_number_et;
     ArrayList<String>namesL=new ArrayList<>();
@@ -63,10 +55,8 @@ public class filterdShowdb extends AppCompatActivity implements AdapterView.OnIt
         mother_et=(EditText)findViewById(R.id.mother_et);
         father_number_et=(EditText) findViewById(R.id.father_number_et);
         mother_number_et=(EditText)findViewById(R.id.mother_number_et);
-        isActive=(Switch)findViewById(R.id.isActive);
         db=hlp.getWritableDatabase();
-        crsr = db.query(TABLE_STUDENT, null, IS_ACTIVE+"=?", new String[]{"1"}, null, null, null, null);
-        int col1=crsr.getColumnIndex(Student.IS_ACTIVE);
+        crsr = db.query(TABLE_STUDENT, null, null, null, null, null, null, null);
         int col9=crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
         int col3 = crsr.getColumnIndex(Student.PHONE_NUMBER);
@@ -77,8 +67,6 @@ public class filterdShowdb extends AppCompatActivity implements AdapterView.OnIt
         int col8 = crsr.getColumnIndex(Student.MOTHER_NUMBER);
         crsr.moveToFirst();
         while (!crsr.isAfterLast()) {
-            int active=crsr.getInt(col1);
-            if(active==1) {
                 String name = crsr.getString(col2);
                 String phoneN = crsr.getString(col3);
                 String homeN = crsr.getString(col4);
@@ -95,7 +83,6 @@ public class filterdShowdb extends AppCompatActivity implements AdapterView.OnIt
                 homeNL.add(homeN);
                 phoneNL.add(phoneN);
                 namesL.add(name);
-            }
             crsr.moveToNext();
         }
         crsr.close();
@@ -237,59 +224,43 @@ public class filterdShowdb extends AppCompatActivity implements AdapterView.OnIt
         }
     }
     /**
-     * updates data base that student is no longer active.
+     * deletes student from data base.
      * <p>
      * @param view the button that got clicked.
      */
-    public void off(View view) {
-        if(!isActive.isChecked()){
-            db = hlp.getWritableDatabase();
-            db.delete(TABLE_STUDENT, KEY_ID+"=?", new String[]{Integer.toString(pos+1)});
-            cv.put(Student.IS_ACTIVE,"0");
-            cv.put(Student.NAME,namesL.get(pos));
-            cv.put(Student.HOME_NUMBER,homeNL.get(pos));
-            cv.put(Student.MOTHER,motherL.get(pos));
-            cv.put(Student.MOTHER_NUMBER,motherNL.get(pos));
-            cv.put(Student.FATHER,fatherL.get(pos));
-            cv.put(Student.FATHER_NUMBER,fatherNL.get(pos));
-            db.insert(TABLE_STUDENT,null,cv);
-            db.close();
-            // update the db with new student in active
-
-            db = hlp.getWritableDatabase();
-            crsr = db.query(TABLE_STUDENT, new String[]{Student.KEY_ID}, null, null, null, null, null, null);
-            int col1=crsr.getColumnIndex(Student.KEY_ID);
-            crsr.moveToFirst();
-            Integer id=0;
-            while (!crsr.isAfterLast()) {
-                int key=crsr.getInt(col1);
-                id=key;
-                crsr.moveToNext();
-            }
-            crsr.close();
-            cv.put(Grades.STUDENT_ID,id.toString());
-            db.update(TABLE_GRADES,cv, Grades.STUDENT_ID+"=?", new String[]{keys.get(pos).toString()});
-            db.close();
-            Toast.makeText(this,"student DeActivated",Toast.LENGTH_SHORT).show();
-            namesL.remove(pos);
-            adp.notifyDataSetChanged();
-            fatherL.remove(pos);
-            fatherNL.remove(pos);
-            motherL.remove(pos);
-            motherNL.remove(pos);
-            homeNL.remove(pos);
-            phoneNL.remove(pos);
-            keys.remove(pos);
-            name_et.setText("");
-            num_et.setText("");
-            home_number_et.setText("");
-            father_et.setText("");
-            mother_et.setText("");
-            father_number_et.setText("");
-            mother_number_et.setText("");
+    public void del(View view) {
+        db = hlp.getWritableDatabase();
+        db.delete(TABLE_STUDENT, KEY_ID+"=?", new String[]{Integer.toString(pos+1)});
+        db.delete(TABLE_GRADES,Grades.STUDENT_ID+"=?",new String[]{Integer.toString(pos+1)});
+        db.close();
+        Toast.makeText(this,"Student Deleted",Toast.LENGTH_SHORT).show();
+        if(pos==0){
+            name_et.setText(namesL.get(pos+1));
+            num_et.setText(phoneNL.get(pos+1));
+            home_number_et.setText(homeNL.get(pos+1));
+            father_et.setText(fatherL.get(pos+1));
+            mother_et.setText(motherL.get(pos+1));
+            father_number_et.setText(fatherNL.get(pos+1));
+            mother_number_et.setText(motherL.get(pos+1));
         }
-        else{
-
+        else {
+            name_et.setText(namesL.get(pos-1));
+            num_et.setText(phoneNL.get(pos-1));
+            home_number_et.setText(homeNL.get(pos-1));
+            father_et.setText(fatherL.get(pos-1));
+            mother_et.setText(motherL.get(pos-1));
+            father_number_et.setText(fatherNL.get(pos-1));
+            mother_number_et.setText(motherL.get(pos-1));
         }
+        namesL.remove(pos);
+        fatherL.remove(pos);
+        fatherNL.remove(pos);
+        motherL.remove(pos);
+        motherNL.remove(pos);
+        homeNL.remove(pos);
+        phoneNL.remove(pos);
+        keys.remove(pos);
+        adp.notifyDataSetChanged();// updates the adapter with out the deleted name.
+
     }
 }

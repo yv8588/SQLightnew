@@ -58,7 +58,7 @@ public class grade extends AppCompatActivity implements AdapterView.OnItemLongCl
         String TABLE = TABLE_STUDENT;
         String[] columns = {Student.KEY_ID, Student.NAME};
         db = hlp.getWritableDatabase();
-        crsr = db.query(TABLE, columns, Student.IS_ACTIVE+"=?",new String[]{"1"}, null, null, null, null);
+        crsr = db.query(TABLE, columns, null,null, null, null, null, null);
         int col1 = crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
         crsr.moveToFirst();
@@ -136,7 +136,6 @@ public class grade extends AppCompatActivity implements AdapterView.OnItemLongCl
             cv2.put(Grades.QUARTER_NUMBER, quarter);
             cv2.put(Grades.GRADE, grade); // first column of grades committed into db.
             cv2.put(Grades.STUDENT_ID, student_ID);//to know witch num of student it was.
-            cv2.put(Grades.ACTIVE,"1");
             db.insert(Grades.TABLE_GRADES, null, cv2);
             db.close();
         }
@@ -230,7 +229,6 @@ public class grade extends AppCompatActivity implements AdapterView.OnItemLongCl
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             Integer tmp = keys.get(position);
             student_ID = tmp.toString();
-            Toast.makeText(this, student_ID, Toast.LENGTH_SHORT).show();
     }
 
     @Override

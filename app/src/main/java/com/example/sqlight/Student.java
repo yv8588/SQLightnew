@@ -12,6 +12,5 @@ public class Student {
     public static final String MOTHER="Mother";
     public static final String FATHER_NUMBER="FatherNumber";
     public static final String MOTHER_NUMBER="MotherNumber";
-    public static final String IS_ACTIVE="Active";
 
 }

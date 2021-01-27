@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.example.sqlight.Grades.ACTIVE;
 import static com.example.sqlight.Grades.CLASS_NAME;
 import static com.example.sqlight.Grades.GRADE;
 import static com.example.sqlight.Grades.QUARTER_NUMBER;
@@ -13,7 +12,6 @@ import static com.example.sqlight.Grades.TABLE_GRADES;
 import static com.example.sqlight.Student.FATHER;
 import static com.example.sqlight.Student.FATHER_NUMBER;
 import static com.example.sqlight.Student.HOME_NUMBER;
-import static com.example.sqlight.Student.IS_ACTIVE;
 import static com.example.sqlight.Student.KEY_ID;
 import static com.example.sqlight.Student.MOTHER;
 import static com.example.sqlight.Student.MOTHER_NUMBER;
@@ -26,7 +24,7 @@ import static com.example.sqlight.Student.TABLE_STUDENT;
  */
 public class HelperDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "newDB.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 14;
     String strCreate, strDelete;
     public HelperDB(Context context) {
 
@@ -48,8 +46,7 @@ public class HelperDB extends SQLiteOpenHelper {
         strCreate+=" "+FATHER+" TEXT,";
         strCreate+=" "+MOTHER+" TEXT,";
         strCreate+=" "+FATHER_NUMBER+" TEXT,";
-        strCreate+=" "+MOTHER_NUMBER+" TEXT,";
-        strCreate+=" "+IS_ACTIVE+" INTEGER";
+        strCreate+=" "+MOTHER_NUMBER+" TEXT";
         strCreate+=");";
         db.execSQL(strCreate);
 
@@ -57,8 +54,7 @@ public class HelperDB extends SQLiteOpenHelper {
         strCreate+="("+STUDENT_ID+" TEXT,";
         strCreate+=" "+CLASS_NAME+" TEXT,";
         strCreate+=" "+QUARTER_NUMBER+" TEXT,";
-        strCreate+=" "+GRADE+" INTEGER,";
-        strCreate+=" "+ACTIVE+" INTEGER";
+        strCreate+=" "+GRADE+" INTEGER";
         strCreate+=");";
         db.execSQL(strCreate);
     }

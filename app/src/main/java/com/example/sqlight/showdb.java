@@ -43,7 +43,7 @@ public class showdb extends AppCompatActivity implements AdapterView.OnItemSelec
         show_tv.setText("");
         hlp=new HelperDB(this);
         db=hlp.getWritableDatabase();
-        crsr = db.query(TABLE_STUDENT, columns, Student.IS_ACTIVE+"=?",new String[]{"1"} , null, null, null);
+        crsr = db.query(TABLE_STUDENT, columns, null, null, null, null, null);
         int col1 = crsr.getColumnIndex(Student.KEY_ID);
         int col2 = crsr.getColumnIndex(Student.NAME);
         crsr.moveToFirst();
